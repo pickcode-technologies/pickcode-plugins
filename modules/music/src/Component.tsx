@@ -4,7 +4,6 @@ import * as Tone from "tone";
 
 import { NoteView } from "./NoteView.tsx";
 import State from "./state";
-import "./index.css";
 
 const Component = observer(({ state }: { state: State }) => {
     const musicContainerRef = useRef<HTMLDivElement>(null);
