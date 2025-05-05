@@ -1,0 +1,8 @@
+{
+  "org": "team-pickcode",
+  "environments": {
+    "local": {
+      "moduleId": "music-5a8f5c01-516b-4b43-91f6-4e5e2eb66c84"
+    }
+  }
+}
