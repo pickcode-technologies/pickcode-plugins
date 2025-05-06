@@ -213,8 +213,12 @@ const main = async (env: string, branch: string) => {
             );
             const newModuleId = createResponse.data.id;
             writeJsonFile(moduleConfigPath, {
+                ...moduleConfig,
                 org: orgId,
-                environments: { [env]: { moduleId: newModuleId } },
+                environments: {
+                    ...moduleConfig?.environments,
+                    [env]: { moduleId: newModuleId },
+                },
             });
             console.log(`Module created with id ${newModuleId}`);
         } catch (e) {
