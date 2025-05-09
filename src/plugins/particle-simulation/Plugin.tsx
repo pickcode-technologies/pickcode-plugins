@@ -6,9 +6,7 @@ export const Plugin = () => {
     const [pluginState, _] = useState(new State());
 
     useEffect(() => {
-        console.log("setting up listener");
         const onWindowMessage = (m: MessageEvent<any>) => {
-            console.log("got message", m);
             pluginState.onMessage(m.data as any);
         };
         window.addEventListener("message", onWindowMessage);

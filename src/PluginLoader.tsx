@@ -4,8 +4,6 @@ import { Suspense, lazy } from "react";
 export const PluginLoader = () => {
     const { pluginName } = useParams();
 
-    console.log(`./plugins/${pluginName}/Plugin.tsx`);
-
     const PluginComponent = lazy(
         () => import(`./plugins/${pluginName}/Plugin.tsx`)
     );

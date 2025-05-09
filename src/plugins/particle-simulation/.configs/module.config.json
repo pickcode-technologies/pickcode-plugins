@@ -1,8 +1,0 @@
-{
-  "org": "team-pickcode",
-  "environments": {
-    "local": {
-      "moduleId": "particle-simulation-299eb2af-5699-40e5-9a53-72f881d0927e"
-    }
-  }
-}

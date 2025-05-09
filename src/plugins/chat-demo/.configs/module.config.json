@@ -1,8 +1,0 @@
-{
-    "org": "team-pickcode",
-    "environments": {
-        "local": {
-            "moduleId": "chat-32f93ffa-2473-443c-bcdc-436aa3a0fe27"
-        }
-    }
-}
