@@ -19,17 +19,8 @@ interface KeysConfig {
     };
 }
 
-interface ModuleConfig {
-    org: string;
-    environments: {
-        [env: string]: { moduleId: string };
-    };
-}
-
 interface ApiData {
     name: string;
-    componentJsImplementation: string;
-    stateJsImplementation: string;
     specByLanguage: {
         BasicJS: {
             starterCode: {
@@ -129,28 +120,6 @@ const main = async (env: string, branch: string) => {
         process.exit(1);
     }
 
-    const moduleConfigPath = path.resolve(
-        process.cwd(),
-        ".configs/module.config.json"
-    );
-    let moduleConfig = readJsonFile<ModuleConfig>(moduleConfigPath);
-
-    const componentJsImplementation = readStringFile(
-        path.resolve(process.cwd(), "dist/component/index.js")
-    );
-    if (!componentJsImplementation) {
-        throw new Error(
-            `Component file is empty; you may have forgotten to build the code.`
-        );
-    }
-    const stateJsImplementation = readStringFile(
-        path.resolve(process.cwd(), "dist/state/index.js")
-    );
-    if (!stateJsImplementation) {
-        throw new Error(
-            `State file is empty; you may have forgotten to build the code.`
-        );
-    }
     const basicJsImplementation = readStringFile(
         path.resolve(process.cwd(), "dist/implementation/index.js")
     );
@@ -162,8 +131,6 @@ const main = async (env: string, branch: string) => {
 
     const data: ApiData = {
         name: path.basename(process.cwd()),
-        componentJsImplementation,
-        stateJsImplementation,
         specByLanguage: {
             BasicJS: {
                 // TODO: maybe we can read this from a starter-code directory

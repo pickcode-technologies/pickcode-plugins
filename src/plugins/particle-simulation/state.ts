@@ -8,10 +8,7 @@ export interface Particle {
 
 export class State {
     @observable
-    accessor value: string = "";
-
-    @observable
-    accessor particles: Particle[] = [];
+    accessor particles: Particle[] = [{ color: "red", temperature: 50 }];
 
     public init = () => {};
 

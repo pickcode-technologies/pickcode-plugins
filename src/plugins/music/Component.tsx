@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 
-import { NoteView } from "./NoteView.tsx";
-import State from "./state";
+import { NoteView } from "./NoteView.js";
+import State from "./state.js";
 
 const Component = observer(({ state }: { state: State }) => {
     const musicContainerRef = useRef<HTMLDivElement>(null);

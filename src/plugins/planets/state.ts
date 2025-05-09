@@ -3,7 +3,9 @@ import { Planet } from "./messages";
 
 export class State {
     @observable
-    accessor planets: Planet[] = [];
+    accessor planets: Planet[] = [
+        { color: "red", name: "mars", radius: 100, speed: 10, size: 100 },
+    ];
 
     public init = () => {};
 
