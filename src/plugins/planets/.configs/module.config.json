@@ -1,8 +1,0 @@
-{
-  "org": "team-pickcode",
-  "environments": {
-    "local": {
-      "moduleId": "planets-7cd94981-f723-4d0d-923a-cda33d553af6"
-    }
-  }
-}
