@@ -6,7 +6,8 @@
     "scripts": {
         "init-plugin": "tsx .scripts/init-module.ts",
         "update-plugin": "tsx .scripts/update-plugin.ts",
-        "start": "vite"
+        "start": "vite",
+        "build": "tsc --project tsconfig.plugin-implementations.json"
     },
     "dependencies": {
         "@babel/plugin-proposal-decorators": "^7.25.9",
@@ -18,7 +19,8 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-router": "^7.6.0",
-        "tailwindcss": "^4.1.5"
+        "tailwindcss": "^4.1.5",
+        "tone": "^15.1.22"
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",

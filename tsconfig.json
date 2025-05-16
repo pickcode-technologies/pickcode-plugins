@@ -6,7 +6,7 @@
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "experimentalDecorators": true,
+        // "experimentalDecorators": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
@@ -20,7 +20,7 @@
         "sourceMap": true
     },
     "esm": true,
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "template/**/*.ts"],
     "ts-node": {
         "esm": true
     }

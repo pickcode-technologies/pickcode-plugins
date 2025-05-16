@@ -31,8 +31,6 @@ export const NoteView: React.FC<NoteViewProps> = ({ note, duration }) => {
     const colorClass = noteColors[noteLetter] || "bg-indigo-100";
     const colorTextClass = noteTextColors[noteLetter] || "text-indigo-100";
 
-    console.log(note, noteLetter, colorClass, colorTextClass);
-
     const size = duration / 10;
 
     return (

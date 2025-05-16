@@ -7,7 +7,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/:pluginName" element={<PluginLoader />} />
+                <Route path="/embed/:pluginName" element={<PluginLoader />} />
             </Routes>
         </BrowserRouter>
     );

@@ -27,6 +27,8 @@ const Component = observer(({ state }: { state: State }) => {
 
         const playNote = async (note: string, duration: number) => {
             // Ensure Tone.js has been started (required by some browsers)
+            // NOTE: this likely requires user interaction in the iframe -- we may need to give
+            // them a button to click, like "start song"
             await Tone.start();
             // If your note string doesn't include an octave, you can default to one (e.g., "4")
             const noteWithOctave = /\d/.test(note) ? note : note + "4";
@@ -35,19 +37,23 @@ const Component = observer(({ state }: { state: State }) => {
         };
 
         const playNextNote = async (index: number) => {
-            if (isCancelled || !state.notes || index >= state.notes.length)
-                return;
+            try {
+                if (isCancelled || !state.notes || index >= state.notes.length)
+                    return;
 
-            setCurrentNoteIndex(index);
-            const noteData = state.notes[index];
+                setCurrentNoteIndex(index);
+                const noteData = state.notes[index];
 
-            // Play the note using Tone.js
-            await playNote(noteData.note, noteData.duration);
+                // Play the note using Tone.js
+                await playNote(noteData.note, noteData.duration);
 
-            // Schedule the next note after the current note's duration
-            setTimeout(() => {
-                void playNextNote(index + 1);
-            }, noteData.duration);
+                // Schedule the next note after the current note's duration
+                setTimeout(() => {
+                    void playNextNote(index + 1);
+                }, noteData.duration);
+            } catch (e) {
+                console.error(e);
+            }
         };
 
         if (state.notes && state.notes.length > 0) {
@@ -59,7 +65,8 @@ const Component = observer(({ state }: { state: State }) => {
             // Dispose of the synth to free up resources
             synth.dispose();
         };
-    }, [state?.notes.length, state]);
+    }, [state?.notes.length]);
+
     return (
         <div className="bg-white flex flex-col h-full w-full items-center p-2 overflow-y-hidden">
             <div className="p-2 rounded-lg border-2 border-slate-200 w-[calc(100%-100px)] max-w-[320px] flex flex-col flex-grow flex-shrink overflow-y-hidden">

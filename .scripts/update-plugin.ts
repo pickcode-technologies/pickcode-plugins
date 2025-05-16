@@ -19,6 +19,12 @@ interface KeysConfig {
     };
 }
 
+interface ModuleConfig {
+    environments: Partial<{
+        [env: string]: { owner: string };
+    }>;
+}
+
 interface ApiData {
     name: string;
     specByLanguage: {
@@ -73,7 +79,7 @@ const promptUser = (question: string): Promise<string> => {
 };
 
 async function getKeyForOrg(orgName: string, env: string) {
-    const keysPath = path.resolve(__dirname, "../.config/keys.json");
+    const keysPath = path.resolve(process.cwd(), ".config/keys.json");
     let keys = readJsonFile<KeysConfig>(keysPath) || {};
 
     const config = keys[orgName] || {};
@@ -94,21 +100,9 @@ const encodeBasicAuth = (orgId: string, apiKey: string): string => {
     return Buffer.from(`${orgId}:${apiKey}`).toString("base64");
 };
 
-// TODO: figure out module name.... maybe from the config in the working dir, or
-// from package json
-const main = async (env: string, branch: string) => {
-    if (branch === "main") {
-        const confirm = await promptUser(
-            `Warning: You are using the 'main' branch. Are you sure you want to continue? (y/n): `
-        );
-        if (confirm.toLowerCase() !== "y") {
-            console.log("Aborting.");
-            return;
-        }
-    }
-
+const main = async (pluginName: string, env: string) => {
     const urls = readJsonFile<UrlsConfig>(
-        path.resolve(__dirname, "../.config/urls.json")
+        path.resolve(process.cwd(), ".config/urls.json")
     );
     if (!urls) {
         console.error("Urls config not found");
@@ -121,7 +115,10 @@ const main = async (env: string, branch: string) => {
     }
 
     const basicJsImplementation = readStringFile(
-        path.resolve(process.cwd(), "dist/implementation/index.js")
+        path.resolve(
+            process.cwd(),
+            `dist/plugins/${pluginName}/implementation.js`
+        )
     );
     if (!basicJsImplementation) {
         throw new Error(
@@ -129,8 +126,34 @@ const main = async (env: string, branch: string) => {
         );
     }
 
+    let moduleNotYetCreated = false;
+    const moduleConfigPath = `src/plugins/${pluginName}/.config.json`;
+    const moduleConfig = readJsonFile<ModuleConfig>(
+        path.resolve(process.cwd(), moduleConfigPath)
+    );
+    let orgName: string | undefined = undefined;
+    if (moduleConfig) {
+        orgName = moduleConfig[env]?.owner;
+    }
+    if (!orgName) {
+        orgName = await promptUser(
+            "No owner organization is stored for this module in this environment yet. Please enter the organization ID to create this module under: "
+        );
+        moduleNotYetCreated = true;
+        writeJsonFile(moduleConfigPath, {
+            ...moduleConfig,
+            environments: {
+                ...moduleConfig?.environments,
+                [env]: {
+                    ...moduleConfig?.environments?.[env],
+                    owner: orgName,
+                },
+            },
+        });
+    }
+
     const data: ApiData = {
-        name: path.basename(process.cwd()),
+        name: pluginName,
         specByLanguage: {
             BasicJS: {
                 // TODO: maybe we can read this from a starter-code directory
@@ -151,97 +174,55 @@ const main = async (env: string, branch: string) => {
         },
     };
 
-    const moduleId = moduleConfig?.environments[env]?.moduleId;
-    if (!moduleId) {
-        const response = await promptUser(
-            `There is no ID saved for this module in the ${env} environment. Would you like to create a new module? (y/n) `
-        );
-        if (response.toLowerCase() !== "y") {
-            console.log("Aborting");
-            return;
-        }
-        const orgId = await promptUser(
-            `Please enter the ID of the organization creating this module: `
-        );
-        const apiKey = await getKeyForOrg(orgId, env);
-        try {
-            const createResponse = await axios.post(
-                `${baseUrl}/modules/${branch}`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Basic ${encodeBasicAuth(
-                            orgId,
-                            apiKey
-                        )}`,
-                        "Content-Type": "application/json",
-                    },
-                }
+    const apiKey = await getKeyForOrg(orgName, env);
+    try {
+        await axios.patch(`${baseUrl}/plugins/main/${pluginName}`, data, {
+            headers: {
+                Authorization: `Basic ${encodeBasicAuth(orgName, apiKey)}`,
+                "Content-Type": "application/json",
+            },
+        });
+        console.log(`Module ${moduleNotYetCreated ? "created" : "updated"}`);
+    } catch (e) {
+        if (e instanceof AxiosError) {
+            throw new Error(
+                `Failed to ${
+                    moduleNotYetCreated ? "create" : "update"
+                } module: ${e.response?.statusText || e.status}`
             );
-            const newModuleId = createResponse.data.id;
-            writeJsonFile(moduleConfigPath, {
-                ...moduleConfig,
-                org: orgId,
-                environments: {
-                    ...moduleConfig?.environments,
-                    [env]: { moduleId: newModuleId },
-                },
-            });
-            console.log(`Module created with id ${newModuleId}`);
-        } catch (e) {
-            if (e instanceof AxiosError) {
-                throw new Error(
-                    `Failed to create module: ${
-                        e.response?.statusText || e.status
-                    }`
-                );
-            }
-            throw e;
         }
-    } else {
-        const orgId = moduleConfig.org;
-        const apiKey = await getKeyForOrg(orgId, env);
-        try {
-            await axios.patch(
-                `${baseUrl}/modules/${branch}/${moduleId}`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Basic ${encodeBasicAuth(
-                            orgId,
-                            apiKey
-                        )}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            console.log("Module updated");
-        } catch (e) {
-            if (e instanceof AxiosError) {
-                throw new Error(
-                    `Failed to patch module: ${
-                        e.response?.statusText || e.status
-                    }`
-                );
-            }
-            throw e;
-        }
+        throw e;
     }
 };
 
-const argv = yargs(hideBin(process.argv)).options({
-    branch: { type: "string", default: "main", describe: "Branch name" },
-}).argv;
+const argv = yargs(hideBin(process.argv))
+    .demandCommand(2, 2, "plugin name and environment must be provided")
+    .parseSync();
 
-const env = process.argv[2] as "local" | "dev" | "prod";
+const pluginName = argv._[0]?.toString();
+if (!pluginName) {
+    console.error("Usage: update-plugin <pluginName> <environment>");
+    process.exit(1);
+}
+if (["local", "dev", "prod"].includes(pluginName)) {
+    console.warn(
+        `Got a plugin name of ${pluginName} -- the plugin name should go before the environment`
+    );
+    process.exit(1);
+}
+
+const env = argv._[1]?.toString();
+if (!env) {
+    console.error("Usage: update-plugin <pluginName> <environment>");
+    process.exit(1);
+}
 if (!["local", "dev", "prod"].includes(env)) {
     console.error('Invalid environment. Please use "local", "dev", or "prod".');
     process.exit(1);
 }
 
 async function execute() {
-    const args = await argv;
-    await main(env, args.branch).catch((e) => {
+    await main(pluginName, env).catch((e) => {
         console.error(e);
     });
 }
