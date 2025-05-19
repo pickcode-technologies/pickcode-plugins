@@ -1,19 +1,7 @@
-import { useEffect, useState } from "react";
-import State from "./state";
+import { plugin } from "../../common/plugin";
 import Component from "./Component";
+import State from "./state";
 
-export const Plugin = () => {
-    const [pluginState, _] = useState(new State());
-
-    useEffect(() => {
-        const onWindowMessage = (m: MessageEvent<any>) => {
-            pluginState.onMessage(m.data as any);
-        };
-        window.addEventListener("message", onWindowMessage);
-        return () => window.removeEventListener("message", onWindowMessage);
-    }, []);
-
-    return <Component state={pluginState} />;
-};
+export const Plugin = plugin(Component, State);
 
 export default Plugin;
