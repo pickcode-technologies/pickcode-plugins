@@ -37,7 +37,7 @@ const copyDirectory = (source: string, destination: string) => {
 };
 
 const initializePlugin = async () => {
-    let pluginName = await promptUser("Enter the new module's plugin: ");
+    let pluginName = await promptUser("Enter the new plugin's name: ");
     while (!isValidPackageName(pluginName)) {
         console.log(`${pluginName} is not a valid name`);
         pluginName = await promptUser("Enter the new plugin's name: ");

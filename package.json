@@ -7,6 +7,7 @@
         "init-plugin": "tsx .scripts/init-module.ts",
         "update-plugin": "tsx .scripts/update-plugin.ts",
         "start": "vite",
+        "build:site": "vite build",
         "build": "tsc --project tsconfig.plugin-implementations.json"
     },
     "dependencies": {

@@ -117,7 +117,7 @@ const main = async (pluginName: string, env: string) => {
     const basicJsImplementation = readStringFile(
         path.resolve(
             process.cwd(),
-            `dist/plugins/${pluginName}/implementation.js`
+            `dist/implementations/plugins/${pluginName}/implementation.js`
         )
     );
     if (!basicJsImplementation) {
