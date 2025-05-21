@@ -117,7 +117,7 @@ const main = async (pluginName: string, env: string) => {
     const basicJsImplementation = readStringFile(
         path.resolve(
             process.cwd(),
-            `dist/implementations/plugins/${pluginName}/implementation.js`
+            `public/implementations/${pluginName}/implementation.js`
         )
     );
     if (!basicJsImplementation) {
@@ -133,7 +133,7 @@ const main = async (pluginName: string, env: string) => {
     );
     let orgName: string | undefined = undefined;
     if (moduleConfig) {
-        orgName = moduleConfig[env]?.owner;
+        orgName = moduleConfig.environments[env]?.owner;
     }
     if (!orgName) {
         orgName = await promptUser(

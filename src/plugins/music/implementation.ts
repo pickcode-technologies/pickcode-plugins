@@ -4,10 +4,8 @@ const createExports = (
     sendMessage: (message: SongFromRuntimeMessage) => void
 ) => {
     return Promise.resolve({
-        song: {
-            playNote: (note: string, duration: number) =>
-                sendMessage({ note, duration }),
-        },
+        playNote: (note: string, duration: number) =>
+            sendMessage({ note, duration }),
     });
 };
 
