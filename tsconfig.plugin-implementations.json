@@ -6,7 +6,7 @@
         "declaration": false,
         "sourceMap": false
     },
-    "include": ["src/plugins/*/implementation.ts"],
+    "include": ["src/plugins/**/implementation.ts"],
     "exclude": [
         "node_modules",
         "src/**/*.test.ts",

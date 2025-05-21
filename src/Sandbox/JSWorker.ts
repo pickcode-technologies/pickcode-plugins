@@ -205,12 +205,9 @@ const handleMessage = async (message: any) => {
             } catch (e) {
                 if (e instanceof Error) {
                     postMessage({
-                        type: "module",
-                        contents: {
-                            type: "console",
-                            stream: "stderr",
-                            messageText: `${e.name}: ${e.message}\n`,
-                        },
+                        type: "console",
+                        stream: "stderr",
+                        messageText: `${e.name}: ${e.message}\n`,
                     });
                     maybeTerminate();
                 }
@@ -223,12 +220,9 @@ const handleMessage = async (message: any) => {
             } catch (e) {
                 if (e instanceof Error) {
                     postMessage({
-                        type: "module",
-                        contents: {
-                            type: "console",
-                            stream: "stderr",
-                            messageText: `${e.name}: ${e.message}\n`,
-                        },
+                        type: "console",
+                        stream: "stderr",
+                        messageText: `${e.name}: ${e.message}\n`,
                     });
                 }
                 maybeTerminate();

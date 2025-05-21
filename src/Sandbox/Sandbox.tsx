@@ -18,6 +18,13 @@ export const Sandbox = () => {
     const [codeText, setCodeText] = useState("");
 
     useEffect(() => {
+        const codeText = localStorage.getItem("codeText");
+        if (codeText) {
+            setCodeText(codeText);
+        }
+    }, []);
+
+    useEffect(() => {
         if (!pluginName) return;
         loadImplementationCode(pluginName).then((c) => {
             setImplementation(c);
@@ -28,9 +35,12 @@ export const Sandbox = () => {
         <div className="flex flex-row w-full h-full">
             <div className="flex m-2 b-2 flex-col grow">
                 <textarea
-                    className="flex grow p-2"
+                    className="flex font-mono grow p-2 border border-slate-500 rounded-lg"
                     value={codeText}
-                    onChange={(e) => setCodeText(e.target.value)}
+                    onChange={(e) => {
+                        setCodeText(e.target.value);
+                        localStorage.setItem("codeText", e.target.value);
+                    }}
                 />
             </div>
             <div className="flex m-2 b-2 flex-col grow">
@@ -41,12 +51,12 @@ export const Sandbox = () => {
                             iframe.contentWindow?.postMessage(message, "*");
                         });
                     }}
-                    className="flex grow"
+                    className="flex grow border border-slate-500 rounded-lg"
                     src={`/embed/${pluginName}`}
                 />
             </div>
             <div
-                className="absolute cursor-pointer right-5 bottom-5"
+                className="absolute cursor-pointer right-5 bottom-5 bg-green-500 text-green-50 px-4 py-2 rounded-lg and-i-need-it-now hover:ring-2 hover:ring-green-800"
                 onClick={() => {
                     jsRuntimeRef.current?.startExecution(
                         codeText,
@@ -54,7 +64,7 @@ export const Sandbox = () => {
                     );
                 }}
             >
-                PLAY
+                Play
             </div>
         </div>
     );
