@@ -1,4 +1,4 @@
-import { SongFromRuntimeMessage } from "./messages";
+import { SongFromRuntimeMessage } from "../../messages";
 
 const createExports = (
     sendMessage: (message: SongFromRuntimeMessage) => void

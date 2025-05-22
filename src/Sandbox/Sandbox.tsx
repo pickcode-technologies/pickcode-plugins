@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { JSRuntime } from "./JSRuntime";
 
 async function loadImplementationCode(name: string): Promise<string> {
-    const url = `/implementations/${name}/implementation.js`; // served from publicDir :contentReference[oaicite:0]{index=0}
+    const url = `/plugins-code/${name}/languages/BasicJS/implementation.js`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Failed to fetch ${name}: ${res.statusText}`);
     return res.text();

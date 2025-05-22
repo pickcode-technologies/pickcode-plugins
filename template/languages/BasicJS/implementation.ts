@@ -1,4 +1,4 @@
-import { FromRuntimeMessage } from "./messages";
+import { FromRuntimeMessage } from "../../messages";
 
 const createExports = (
     sendMessage: (message: FromRuntimeMessage) => void
