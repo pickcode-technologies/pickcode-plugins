@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import State from "./state";
 import { useEffect, useRef } from "react";
+import State from "./state";
 
 const Component = observer(({ state }: { state: State | undefined }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);

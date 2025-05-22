@@ -1,4 +1,4 @@
-import { AddParticlesMessage } from "./messages";
+import { AddParticlesMessage } from "../../messages";
 
 const createExports = (sendMessage: (message: AddParticlesMessage) => void) => {
     return Promise.resolve({

@@ -1,0 +1,1 @@
+chat.send("Hello, world!");

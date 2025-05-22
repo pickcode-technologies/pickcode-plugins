@@ -1,0 +1,22 @@
+{
+  "chat-demo": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/chat-demo/languages/BasicJS/implementation.js"
+    }
+  },
+  "music": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/music/languages/BasicJS/implementation.js"
+    }
+  },
+  "particle-simulation": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/particle-simulation/languages/BasicJS/implementation.js"
+    }
+  },
+  "planets": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/planets/languages/BasicJS/implementation.js"
+    }
+  }
+}
