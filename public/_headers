@@ -1,11 +1,9 @@
 /plugins-code/*
   Access-Control-Allow-Origin: https://dev.pickcode.io
-  Access-Control-Allow-Origin: https://app.pickcode.io
   Access-Control-Allow-Methods: GET
   Access-Control-Allow-Headers: Content-Type
 
 /plugins-manifest.json
   Access-Control-Allow-Origin: https://dev.pickcode.io
-  Access-Control-Allow-Origin: https://app.pickcode.io
   Access-Control-Allow-Methods: GET
   Access-Control-Allow-Headers: Content-Type
