@@ -44,6 +44,7 @@ const overriddenConsole: typeof console = {
         postMessage({ type: "clearConsole" });
     },
     log: (...data) => {
+        originalConsole.log(...data);
         postMessage({
             type: "console",
             level: "log",
@@ -51,6 +52,7 @@ const overriddenConsole: typeof console = {
         });
     },
     debug: (...data) => {
+        originalConsole.debug(...data);
         postMessage({
             type: "console",
             level: "debug",
@@ -58,6 +60,7 @@ const overriddenConsole: typeof console = {
         });
     },
     info: (...data) => {
+        originalConsole.info(...data);
         postMessage({
             type: "console",
             level: "info",
@@ -65,6 +68,7 @@ const overriddenConsole: typeof console = {
         });
     },
     warn: (...data) => {
+        originalConsole.warn(...data);
         postMessage({
             type: "console",
             level: "warn",
@@ -72,6 +76,7 @@ const overriddenConsole: typeof console = {
         });
     },
     error: (...data) => {
+        originalConsole.error(...data);
         postMessage({
             type: "console",
             level: "error",
