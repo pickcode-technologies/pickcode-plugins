@@ -110,7 +110,7 @@ function playSignal(
     const wave = ac.createPeriodicWave(real, imag, {
         disableNormalization: true,
     });
-    gain.gain.value = 0.2;
+    gain.gain.value = 0.1;
 
     osc.setPeriodicWave(wave);
     osc.connect(gain);
