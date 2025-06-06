@@ -1,0 +1,10 @@
+{
+  "environments": {
+    "dev": {
+      "owner": "team-pickcode"
+    },
+    "local": {
+      "owner": "team-pickcode"
+    }
+  }
+}
