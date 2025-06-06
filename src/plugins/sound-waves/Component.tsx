@@ -157,7 +157,6 @@ const Component = observer(({ state }: { state: State }) => {
                     ...expression,
                     hidden: expressionIndex / 2 !== idx,
                 });
-                console.log("actually printing", expression.id);
             });
         },
         [calculatorInstance.current]
