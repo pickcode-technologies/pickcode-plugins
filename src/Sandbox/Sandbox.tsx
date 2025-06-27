@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { JSRuntime } from "./JSRuntime";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
 
 async function loadImplementationCode(name: string): Promise<string> {
     const url = `/plugins-code/${name}/languages/BasicJS/implementation.js`;
@@ -33,13 +35,15 @@ export const Sandbox = () => {
 
     return (
         <div className="flex flex-row w-full h-full">
-            <div className="flex m-2 b-2 flex-col grow">
-                <textarea
-                    className="flex font-mono grow p-2 border border-slate-500 rounded-lg"
+            <div className="flex flex-col grow">
+                <CodeMirror
                     value={codeText}
-                    onChange={(e) => {
-                        setCodeText(e.target.value);
-                        localStorage.setItem("codeText", e.target.value);
+                    className="h-full grow m-2 b-2 border border-slate-500 rounded-lg overflow-hidden"
+                    height="100%"
+                    extensions={[javascript()]}
+                    onChange={(value) => {
+                        setCodeText(value);
+                        localStorage.setItem("codeText", value);
                     }}
                 />
             </div>
