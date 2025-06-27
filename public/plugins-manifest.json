@@ -23,5 +23,10 @@
     "BasicJS": {
       "implUrl": "/plugins-code/planets/languages/BasicJS/implementation.js"
     }
+  },
+  "sound-waves": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/sound-waves/languages/BasicJS/implementation.js"
+    }
   }
 }
