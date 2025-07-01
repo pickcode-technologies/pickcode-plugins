@@ -23,5 +23,10 @@
     "BasicJS": {
       "implUrl": "/plugins-code/planets/languages/BasicJS/implementation.js"
     }
+  },
+  "supply-demand": {
+    "BasicJS": {
+      "implUrl": "/plugins-code/supply-demand/languages/BasicJS/implementation.js"
+    }
   }
 }
