@@ -1,3 +1,8 @@
-* @charliemeyer @cbh66
+-   @charliemeyer @cbh66
+
+# Things plugin authors need
 
 /src/plugins/ @charliemeyer @cbh66 @tmaster628
+/package.json @charliemeyer @cbh66 @tmaster628
+/package-lock.json @charliemeyer @cbh66 @tmaster628
+/public/plugins-manifest.json @charliemeyer @cbh66 @tmaster628
